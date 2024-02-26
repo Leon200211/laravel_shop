@@ -12,6 +12,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@sentry/browser": "^7.40.0",
         "@tailwindcss/line-clamp": "^0.4.4",
         "autoprefixer": "^10.4.17",
         "sass": "^1.71.1",
