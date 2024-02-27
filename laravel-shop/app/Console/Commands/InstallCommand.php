@@ -28,7 +28,7 @@ class InstallCommand extends Command
     public function handle(): int
     {
         $this->call('storage:link');
-        $this->call('telescope:install');
+        //$this->call('telescope:install');
         $this->call('migrate');
 
         return self::SUCCESS;
