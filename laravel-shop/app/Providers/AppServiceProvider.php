@@ -38,6 +38,15 @@ class AppServiceProvider extends ServiceProvider
             ;
         });
 
+        DB::listen(function ($query) {
+            if ($query->time > 500) {
+                logger()
+                    ->channel('telegram')
+                    ->debug('laravel-shop whenQueryingLongerThan:' . $query->sql, $query->bindings)
+                ;
+            }
+        });
+
         $kernel = app(Kernel::class);
         $kernel->whenRequestLifecycleIsLongerThan(
             CarbonInterval::seconds(4),
