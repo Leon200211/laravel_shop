@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Model::shouldBeStrict(!app()->isProduction());
 //        Model::preventLazyLoading(!app()->isProduction());
@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         DB::listen(function ($query) {
-            if ($query->time > 500) {
+            if ($query->time > 100) {
                 logger()
                     ->channel('telegram')
                     ->debug('laravel-shop whenQueryingLongerThan:' . $query->sql, $query->bindings)

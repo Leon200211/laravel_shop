@@ -123,7 +123,7 @@ return [
             'via' => \App\Logging\Telegram\TelegramLoggerFactory::class,
             'level' => env('LOG_LEVEL', 'debug'),
             'token' => env('TELEGRAM_TOKEN', ''),
-            'chat_id' => (int)env('TELEGRAM_CHAT_ID', ''),
+            'chat_id' => env('TELEGRAM_CHAT_ID', ''),
         ],
     ],
 

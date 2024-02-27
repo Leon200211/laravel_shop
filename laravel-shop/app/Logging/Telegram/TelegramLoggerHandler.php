@@ -20,7 +20,7 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
     {
         $level = Logger::toMonologLevel($config['level']);
         $this->token = $config['token'];
-        $this->chatId = $config['chat_id'];
+        $this->chatId = (int)$config['chat_id'];
 
         parent::__construct($level);
     }
