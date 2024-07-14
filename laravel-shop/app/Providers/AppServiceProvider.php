@@ -29,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::shouldBeStrict(!app()->isProduction());
+        // возвращает исключение если мы не используем ленивую загрузку
 //        Model::preventLazyLoading(!app()->isProduction());
+        // возвращает исключение если атрибута нет в филибл поле
 //        Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
 
         DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection) {
