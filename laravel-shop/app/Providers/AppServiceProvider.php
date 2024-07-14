@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
             ;
         });
 
-        DB::listen(function ($query) {
+        DB::listen(static function ($query) {
             if ($query->time > 100) {
                 logger()
                     ->channel('telegram')
