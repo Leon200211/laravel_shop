@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use \Illuminate\Contracts\View\Factory;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -106,5 +107,27 @@ class AuthController extends Controller
             ? redirect()->route('login')->with('message', __($status))
             : back()->withErrors(['email' => [__($status)]])
         ;
+    }
+
+    public function github(): RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function githubCallback(): RedirectResponse
+    {
+        $githubUser = Socialite::driver('github')->user();
+
+        $user = User::query()->updateOrCreate([
+            'github_id' => $githubUser->id,
+        ], [
+            'name' => $githubUser->nickname,
+            'email' => $githubUser->email,
+            'password' => bcrypt(str()->random(20))
+        ]);
+
+        auth()->login($user);
+
+        return redirect()->intended(route('home'));
     }
 }
