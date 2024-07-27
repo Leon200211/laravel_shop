@@ -4,12 +4,13 @@
 
 @section('content')
 
-    <x-forms.auth-forms title="Регистрация" action="">
+    <x-forms.auth-forms title="Регистрация" action="{{ route('store') }}" method="POST">
         @csrf
 
         <x-forms.text-input
             name="name"
             placeholder="ФИО"
+            value="{{ old('name') }}"
             :isError="$errors->has('name')"
             required
         />
@@ -23,6 +24,7 @@
             name="email"
             type="email"
             placeholder="E-mail"
+            value="{{ old('email') }}"
             :isError="$errors->has('email')"
             required
         />

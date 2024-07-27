@@ -4,13 +4,14 @@
 
 @section('content')
 
-    <x-forms.auth-forms title="Вход в аккаунт" action="">
+    <x-forms.auth-forms title="Вход в аккаунт" action="{{ route('signIn') }}" method="POST">
         @csrf
 
         <x-forms.text-input
             name="email"
             type="email"
             placeholder="E-mail"
+            value="{{ old('email') }}"
             :isError="$errors->has('email')"
             required
         />

@@ -4,13 +4,14 @@
 
 @section('content')
 
-    <x-forms.auth-forms title="Забыли пароль" action="">
+    <x-forms.auth-forms title="Забыли пароль" action="" method="POST">
         @csrf
 
         <x-forms.text-input
             name="email"
             type="email"
             placeholder="E-mail"
+            value="{{ old('email') }}"
             :isError="$errors->has('email')"
             required
         />
