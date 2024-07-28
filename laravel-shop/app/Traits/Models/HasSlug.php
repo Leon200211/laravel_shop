@@ -8,17 +8,54 @@ trait HasSlug
 {
     protected static function bootHasSlug(): void
     {
-        // TODO Удалить time из слага 2 блок 4 тема
         static::creating(function (Model $item) {
-            $item->slug = $item->slug
-                ?? str($item->{self::slugFrom()})
-                    ->append(time() . uniqid())
-                    ->slug();
+            $item->makeSlug();
         });
     }
 
-    public static function slugFrom(): string
+    protected function makeSlug(): void
+    {
+        if (!$this->{$this->slugColumn()}) {
+            $slug = $this->slugUnique(
+                str($this->{$this->slugFrom()})
+                    ->slug()
+                    ->value()
+            );
+
+            $this->{$this->slugColumn()} = $slug;
+        }
+    }
+
+    protected function slugColumn(): string
+    {
+        return 'slug';
+    }
+
+    protected static function slugFrom(): string
     {
         return 'title';
+    }
+
+    private function slugUnique(string $slug): string
+    {
+        $originalSlug = $slug;
+        $i = 0;
+
+        while ($this->isSlugExists($slug)) {
+            $i++;
+            $slug = "{$originalSlug}.-{$i}";
+        }
+
+        return $slug;
+    }
+
+    private function isSlugExists(string $slug): bool
+    {
+        return $this->newQuery()
+            ->where(self::slugColumn(), $slug)
+            ->where($this->getKeyName(), '!=', $this->getKey())
+            ->withoutGlobalScopes()
+            ->exists()
+        ;
     }
 }

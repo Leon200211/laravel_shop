@@ -118,6 +118,8 @@ class AuthController extends Controller
     {
         $githubUser = Socialite::driver('github')->user();
 
+        // TODO вынести все идентификаторы в отдельную таблицу (социал_ауф)
+
         $user = User::query()->updateOrCreate([
             'github_id' => $githubUser->id,
         ], [
