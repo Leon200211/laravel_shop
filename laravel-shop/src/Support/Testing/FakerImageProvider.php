@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Testing;
+namespace Support\Testing;
 
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Storage;

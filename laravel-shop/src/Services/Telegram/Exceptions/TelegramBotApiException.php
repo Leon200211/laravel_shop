@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Telegram\Exceptions;
+namespace Services\Telegram\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;

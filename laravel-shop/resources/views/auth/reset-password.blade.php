@@ -3,7 +3,7 @@
 @section('title', 'Восстановление пароль')
 
 @section('content')
-    <x-forms.auth-forms title="Восстановление пароль" action="{{ route('password.update') }}" method="POST">
+    <x-forms.auth-forms title="Восстановление пароль" action="{{ route('password-reset.handle') }}" method="POST">
         @csrf
 
         <x-forms.text-input
