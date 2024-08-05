@@ -27,10 +27,10 @@ class SocialAuthController extends Controller
         // TODO вынести все идентификаторы в отдельную таблицу (социал_ауф)
 
         $user = User::query()->updateOrCreate([
-            "{$driver}_id" => $userSocialite->id,
+            "{$driver}_id" => $userSocialite->getId(),
         ], [
-            'name' => $userSocialite->nickname,
-            'email' => $userSocialite->email,
+            'name' => $userSocialite->getNickname(),
+            'email' => $userSocialite->getEmail(),
             'password' => bcrypt(str()->random(20))
         ]);
 
