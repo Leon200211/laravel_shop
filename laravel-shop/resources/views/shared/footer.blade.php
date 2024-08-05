@@ -3,7 +3,7 @@
         <div class="flex flex-wrap lg:flex-nowrap items-center">
             <div class="footer-logo order-0 basis-full sm:basis-1/2 lg:basis-1/3 shrink-0 text-center sm:text-left">
                 <a href="{{ route('home') }}" class="inline-block" rel="home">
-                    <img src="{{ Vite::image('/logo.svg') }}" class="w-[155px] h-[38px]" alt="CutCode">
+                    <img src="{{ Vite::image('logo.svg') }}" class="w-[155px] h-[38px]" alt="CutCode">
                 </a>
             </div>
             <div class="footer-copyright order-2 lg:order-1 basis-full lg:basis-1/3 mt-8 lg:mt-0">
@@ -30,7 +30,7 @@
         <div class="mmenu-heading flex items-center pt-6 xl:pt-12">
             <div class="shrink-0 grow">
                 <a href="{{ route('home') }}" rel="home">
-                    <img src="{{ Vite::image('/logo-dark.svg') }}" class="w-[148px] md:w-[201px] h-[36px] md:h-[50px]" alt="CutCode">
+                    <img src="{{ Vite::image('logo-dark.svg') }}" class="w-[148px] md:w-[201px] h-[36px] md:h-[50px]" alt="CutCode">
                 </a>
             </div>
             <div class="shrink-0 flex items-center">

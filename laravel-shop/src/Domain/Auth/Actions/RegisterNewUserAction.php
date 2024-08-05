@@ -17,6 +17,7 @@ class RegisterNewUserAction implements RegisterNewUserContract
         ]);
 
         event(new Registered($user));
-        auth()->login($user);
+
+        return $user;
     }
 }
