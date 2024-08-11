@@ -3,9 +3,12 @@
 namespace Domain\Auth\DTOs;
 
 use Illuminate\Http\Request;
+use Support\Traits\Makeable;
 
 final class NewUserDto
 {
+    use Makeable;
+
     public function __construct(
 //        public readonly string  $name,
 //        public readonly string $email,
