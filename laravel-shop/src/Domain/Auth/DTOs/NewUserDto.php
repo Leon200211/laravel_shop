@@ -23,10 +23,6 @@ final class NewUserDto
 
     public static function fromRequest(Request $request): NewUserDto
     {
-        return new self(
-            $request->get('name'),
-            $request->get('email'),
-            $request->get('password')
-        );
+        return self::make(...$request->only(['name', 'email', 'password']));
     }
 }

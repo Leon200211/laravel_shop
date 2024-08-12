@@ -1,16 +1,15 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use Tests\TestCase;
-use DomainException;
-use Mockery\MockInterface;
 use Database\Factories\UserFactory;
-use Illuminate\Testing\TestResponse;
-use Laravel\Socialite\Facades\Socialite;
+use DomainException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Http\Controllers\Auth\SocialAuthController;
+use Illuminate\Testing\TestResponse;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
+use Laravel\Socialite\Facades\Socialite;
+use Mockery\MockInterface;
+use Tests\TestCase;
 
 class SocialAuthControllerTest extends TestCase
 {
