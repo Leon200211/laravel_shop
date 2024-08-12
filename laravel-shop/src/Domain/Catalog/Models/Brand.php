@@ -26,9 +26,9 @@ class Brand extends Model
         'sorting',
     ];
 
-    protected static function boot()
+    public function thumbnailDir(): string
     {
-        parent::boot();
+        return 'brands';
     }
 
     public function products(): HasMany

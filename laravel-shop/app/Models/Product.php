@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
 use Support\Casts\PriceCast;
 use Support\Traits\Models\HasSlug;
 
@@ -16,6 +19,7 @@ class Product extends Model
 {
     use HasFactory;
     use HasSlug;
+    use Searchable;
 
     protected $fillable = [
         'slug',
@@ -25,15 +29,16 @@ class Product extends Model
         'thumbnail',
         'on_home_page',
         'sorting',
+        'text'
     ];
 
     protected $casts = [
         'price' => PriceCast::class
     ];
 
-    protected static function boot(): void
+    public function thumbnailDir(): string
     {
-        parent::boot();
+        return 'products';
     }
 
     public function brand(): BelongsTo
@@ -77,5 +82,15 @@ class Product extends Model
                 $q->orderBy((string)$column->remove('-'), $direction);
             }
         });
+    }
+
+    //#[SearchUsingPrefix(['id'])]
+    #[SearchUsingFullText(['title', 'text'])]
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'text' => $this->text,
+        ];
     }
 }

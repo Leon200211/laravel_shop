@@ -16,12 +16,12 @@ class CatalogController extends Controller
     {
         $brands = Brand::query()->select(['id', 'title'])->has('products')->get();
         $categories = Category::query()->select(['id', 'title', 'slug'])->has('products')->get();
-        $products = Product::query()
-            ->select(['id', 'title', 'slug', 'thumbnail', 'price'])
-            ->when($category->exists, function (Builder $query) use ($category) {
-                $query->whereRelation('categories', 'categories.id', '=', $category->id);
-            })->filtered()->sorted()->paginate(9)
-        ;
+        $products = Product::search(request('search'))->query(function (Builder $query) use ($category) {
+            $query->select(['id', 'title', 'slug', 'thumbnail', 'price'])
+                ->when($category->exists, function (Builder $query) use ($category) {
+                    $query->whereRelation('categories', 'categories.id', '=', $category->id);
+                })->filtered()->sorted();
+        })->paginate(9);
 
         return view('catalog.index', [
            'products' => $products,
