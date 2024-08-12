@@ -5,7 +5,7 @@ namespace App\Providers;
 
 use App\Contracts\RouteRegistrar;
 use App\Routing\AppRegistrar;
-use Domain\Auth\Routing\AuthRegistrar;
+use App\Routing\AuthRegistrar;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

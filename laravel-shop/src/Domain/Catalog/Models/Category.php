@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Catalog\Models;
 
-use App\Traits\Models\HasSlug;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Support\Traits\Models\HasSlug;
 
-class Brand extends Model
+class Category extends Model
 {
     use HasFactory;
     use HasSlug;
@@ -16,19 +17,18 @@ class Brand extends Model
     protected $fillable = [
         'slug',
         'title',
-        'thumbnail',
         'on_home_page',
         'sorting',
     ];
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
     }
 
-    public function products(): HasMany
+    public function products(): BelongsToMany
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class);
     }
 
     public function scopeHomePage(Builder $query): void

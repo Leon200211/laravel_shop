@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Auth\Routing;
+namespace App\Routing;
 
 use App\Contracts\RouteRegistrar;
 use App\Http\Controllers\Auth\ForgotPasswordController;
