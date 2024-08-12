@@ -14,7 +14,7 @@ final class NewUserDto
 //        public readonly string $email,
 //        public readonly string $password,
 
-        public string  $name,
+        public string $name,
         public string $email,
         public string $password,
     )

@@ -107,7 +107,7 @@
                     </svg>
                     <div class="hidden sm:flex flex-col gap-2">
                         <span class="text-body text-xxs leading-none">3 шт.</span>
-                        <span class="text-white text-xxs 2xl:text-xs font-bold !leading-none">57 900 ₽</span>
+                        <span class="text-white text-xxs 2xl:text-xs font-bold !leading-none">57 900</span>
                     </div>
                 </a>
                 <button id="burgerMenu" class="flex 2xl:hidden text-white hover:text-pink transition">
