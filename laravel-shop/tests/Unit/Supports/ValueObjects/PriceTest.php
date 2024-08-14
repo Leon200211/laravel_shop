@@ -22,7 +22,7 @@ class PriceTest extends TestCase
         $this->assertEquals(10000, $price->raw());
         $this->assertEquals('RUB', $price->currency());
         $this->assertEquals('₽', $price->currencySymbol());
-        $this->assertEquals('100 ₽', print_r($price));
+        $this->assertEquals('100 ₽', $price->__toString());
 
         $this->expectException(InvalidArgumentException::class);
 
