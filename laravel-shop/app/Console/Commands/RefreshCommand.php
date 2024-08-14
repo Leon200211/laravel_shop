@@ -32,7 +32,10 @@ class RefreshCommand extends Command
             return self::FAILURE;
         }
 
-        Storage::deleteDirectory('images');
+        Storage::deleteDirectory('images/products');
+        Storage::deleteDirectory('images/brands');
+
+        $this->call('cache:clear');
 
         $this->call('migrate:fresh', [
             '--seed' => true,

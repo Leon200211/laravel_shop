@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Nette\Utils\Image;
+use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ThumbnailController extends Controller
@@ -34,7 +34,7 @@ class ThumbnailController extends Controller
             $image = Image::make($storage->path($realPath));
             [$w, $h] = explode('x', $size);
             $image->{$method}($w, $h);
-            $image->save($storage->path($realPath));
+            $image->save($storage->path($resultPath));
         }
 
         return response()->file($storage->path($resultPath));

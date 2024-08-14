@@ -14,12 +14,14 @@ use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
 use Support\Casts\PriceCast;
 use Support\Traits\Models\HasSlug;
+use Support\Traits\Models\HasThumbnail;
 
 class Product extends Model
 {
     use HasFactory;
     use HasSlug;
     use Searchable;
+    use HasThumbnail;
 
     protected $fillable = [
         'slug',

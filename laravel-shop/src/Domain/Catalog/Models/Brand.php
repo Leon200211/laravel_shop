@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Support\Traits\Models\HasSlug;
+use Support\Traits\Models\HasThumbnail;
 
 /**
  * @method static Category|BrandQueryBuilder query()
@@ -17,6 +18,7 @@ class Brand extends Model
 {
     use HasFactory;
     use HasSlug;
+    use HasThumbnail;
 
     protected $fillable = [
         'slug',
