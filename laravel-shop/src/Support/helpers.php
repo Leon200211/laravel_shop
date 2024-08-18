@@ -2,6 +2,7 @@
 
 use Domain\Catalog\Filters\FilterManager;
 use Domain\Catalog\Models\Category;
+use Domain\Catalog\Sorters\Sorter;
 use Support\Flash\Flash;
 
 if (!function_exists('flash')) {
@@ -33,5 +34,12 @@ if (!function_exists('filter_url')) {
             ...$params,
             'category' => $category
         ]);
+    }
+}
+
+if (!function_exists('sorter')) {
+    function sorter(): Sorter
+    {
+        return app(Sorter::class);
     }
 }

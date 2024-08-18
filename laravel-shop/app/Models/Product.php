@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
+use Domain\Catalog\Sorters\Sorter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -72,15 +73,8 @@ class Product extends Model
 
     public function scopeSorted(Builder $query): void
     {
-        $query->when(request('sort'), function (Builder $q) {
-            $column = request()->str('sort');
-
-            if ($column->contains(['price', 'title'])) {
-                $direction = $column->contains('-') ? 'DESC' : 'ASC';
-
-                $q->orderBy((string)$column->remove('-'), $direction);
-            }
-        });
+        //sorter()->run($query);
+        \Domain\Catalog\Facades\Sorter::run($query);
     }
 
     //#[SearchUsingPrefix(['id'])]
