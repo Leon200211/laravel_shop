@@ -16,7 +16,7 @@ class CatalogController extends Controller
     {
         $categories = Category::query()->select(['id', 'title', 'slug'])->has('products')->get();
         $products = Product::search(request('search'))->query(function (Builder $query) use ($category) {
-            $query->select(['id', 'title', 'slug', 'thumbnail', 'price'])
+            $query->select(['id', 'title', 'slug', 'thumbnail', 'price', 'json_properties'])
                 ->when($category->exists, function (Builder $query) use ($category) {
                     $query->whereRelation('categories', 'categories.id', '=', $category->id);
                 })->filtered()->sorted();
