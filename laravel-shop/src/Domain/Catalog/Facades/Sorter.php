@@ -12,7 +12,7 @@ use Illuminate\Support\Stringable;
  * @method static Stringable sortData()
  * @see CatalogSorter
  */
-class Sorter extends Facade
+final class Sorter extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
