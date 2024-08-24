@@ -7,6 +7,7 @@ use Domain\Auth\Models\User;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
+use Support\SessionRegenerator;
 use Throwable;
 
 class SocialAuthController extends Controller
@@ -35,6 +36,8 @@ class SocialAuthController extends Controller
         ]);
 
         auth()->login($user);
+
+        SessionRegenerator::run(fn () =>  auth()->login($user));
 
         return redirect()->intended(route('home'));
     }
