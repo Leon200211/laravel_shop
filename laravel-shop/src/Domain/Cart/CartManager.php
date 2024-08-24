@@ -5,6 +5,7 @@ namespace Domain\Cart;
 use Domain\Cart\Contracts\CartIdentityStorageContract;
 use Domain\Cart\Models\Cart;
 use Domain\Cart\Models\CartItem;
+use Domain\Cart\StorageIdentities\FakeIdentityStorage;
 use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,21 +18,19 @@ final class CartManager
 {
     public function __construct(
         protected CartIdentityStorageContract $identityStorage
-    )
-    {
+    ) {
     }
 
-    public function get()
+    public static function fake(): void
     {
-        return Cache::remember($this->cacheKey(), now()->addHour(), function () {
-            return Cart::query()
-                ->with('cartItems')
-                ->where('storage_id', $this->identityStorage->get())
-                ->when(auth()->check(), fn(Builder $query) => $query->orWhere('user_id', auth()->id()))
-                ->first()
-                ?? false
-            ;
-        });
+        app()->bind(CartIdentityStorageContract::class, FakeIdentityStorage::class);
+    }
+
+    public function updateStorageId(string $old, string $current): void
+    {
+        Cart::query()
+            ->where('storage_id', $old)
+            ->update($this->storedData($current));
     }
 
     public function add(Product $product, int $quantity = 1, array $optionValues = []): Model|Builder
@@ -39,18 +38,15 @@ final class CartManager
         $cart = Cart::query()
             ->updateOrCreate([
                 'storage_id' => $this->identityStorage->get()
-            ], $this->storedData($this->identityStorage->get()))
-        ;
-
-        $stringedOptionValues = $this->stringedOptionValues($optionValues);
+            ], $this->storedData($this->identityStorage->get()));
 
         $cartItem = $cart->cartItems()->updateOrCreate([
             'product_id' => $product->getKey(),
-            'string_option_values' => $stringedOptionValues,
+            'string_option_values' => $this->stringedOptionValues($optionValues)
         ], [
             'price' => $product->price,
-            'quantity' => DB::raw("quantity + {$quantity}"),
-            'string_option_values' => $stringedOptionValues,
+            'quantity' => DB::raw("quantity + $quantity"),
+            'string_option_values' => $this->stringedOptionValues($optionValues)
         ]);
 
         $cartItem->optionValues()->sync($optionValues);
@@ -78,14 +74,20 @@ final class CartManager
 
     public function truncate(): void
     {
-        $this->get()?->delete();
+        if ($this->get()) {
+            $this->get()->delete();
+        }
 
         $this->forgetCache();
     }
 
     public function cartItems(): Collection
     {
-        return $this->get()?->cartItems ?? collect([]);
+        if (!$this->get()) {
+            return collect();
+        }
+
+        return $this->get()->cartItems;
     }
 
     public function items(): Collection
@@ -97,8 +99,7 @@ final class CartManager
         return CartItem::query()
             ->with(['product', 'optionValues.option'])
             ->whereBelongsTo($this->get())
-            ->get()
-        ;
+            ->get();
     }
 
     public function count(): int
@@ -113,12 +114,27 @@ final class CartManager
         );
     }
 
-    public function updateStorageId(string $old, string $current): void
+    public function get()
     {
-        Cart::query()
-            ->where('storage_id', $old)
-            ->update($this->storedData($current))
-        ;
+        return Cache::remember($this->cacheKey(), now()->addHour(), function () {
+            return Cart::query()
+                ->with('cartItems')
+                ->where('storage_id', $this->identityStorage->get())
+                ->when(auth()->check(), fn(Builder $query) => $query->orWhere('user_id', auth()->id()))
+                ->first() ?? false;
+        });
+    }
+
+    private function cacheKey(): string
+    {
+        return str('cart_' . $this->identityStorage->get())
+            ->slug('_')
+            ->value();
+    }
+
+    private function forgetCache(): void
+    {
+        Cache::forget($this->cacheKey());
     }
 
     private function storedData(string $id): array
@@ -134,23 +150,10 @@ final class CartManager
         return $data;
     }
 
-    private function stringedOptionValues(array $optionValues = [])
+    private function stringedOptionValues(array $optionValues = []): string
     {
         sort($optionValues);
 
         return implode(';', $optionValues);
-    }
-
-    private function cacheKey(): string
-    {
-        return str('cart_' . $this->identityStorage->get())
-            ->slug('_')
-            ->value()
-        ;
-    }
-
-    private function forgetCache(): void
-    {
-        Cache::forget($this->cacheKey());
     }
 }
