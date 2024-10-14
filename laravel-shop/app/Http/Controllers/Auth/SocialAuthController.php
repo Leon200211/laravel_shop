@@ -35,9 +35,9 @@ class SocialAuthController extends Controller
             'password' => bcrypt(str()->random(20))
         ]);
 
-        auth()->login($user);
-
         SessionRegenerator::run(fn () =>  auth()->login($user));
+
+        auth()->login($user);
 
         return redirect()->intended(route('home'));
     }

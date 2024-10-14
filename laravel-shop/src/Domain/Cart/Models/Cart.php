@@ -19,6 +19,7 @@ class Cart extends Model
 
     public function prunable()
     {
+        // TODO не работает, возможно из-за того, что модель лежит не в App\Models
         return static::where('created_at', '<=', now()->subDay());
     }
 

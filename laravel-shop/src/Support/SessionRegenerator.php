@@ -10,6 +10,7 @@ final class SessionRegenerator
     public static function run(Closure $callback = null): void
     {
         $old = request()->session()->getId();
+
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 

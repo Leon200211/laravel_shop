@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Domain\Cart\Models\CartItem;
 use Domain\Product\Models\Product;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\Foundation\Application;

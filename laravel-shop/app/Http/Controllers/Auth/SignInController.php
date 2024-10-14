@@ -35,9 +35,6 @@ class SignInController extends Controller
     {
         SessionRegenerator::run(fn () => auth()->logout());
 
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-
         return redirect()->route('home');
     }
 }
