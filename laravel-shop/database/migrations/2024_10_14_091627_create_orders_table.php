@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->enum('status', array_column(OrderStatuses::cases(), 'value'))
-                ->default('new');
+            $table->enum('status', OrderStatuses::getOrderStatuses())
+                ->default(OrderStatuses::NEW);
 
             $table->foreignIdFor(User::class)
                 ->nullable()

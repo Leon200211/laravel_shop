@@ -33,13 +33,13 @@ class Order extends Model
     ];
 
     protected $attributes = [
-        'status' => 'new'
+        'status' => OrderStatuses::NEW
     ];
 
     public function status(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => OrderStatuses::from($value)->createState($this)
+            get: fn(string $value) => OrderStatuses::createState($value, $this)
         );
     }
 
